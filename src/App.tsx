@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Button } from "@material-ui/core";
+import React from "react";
+import "./App.css";
+import Progress from "./Progress/Progress";
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = (): React.ReactElement => {
+	const [numProgress, setNumProgress] = React.useState(3);
+	const progressList = [];
+	for (let i = 0; i < numProgress; i++) {
+		progressList.push(<Progress id={`${i}`} />);
+	}
+	return (
+		<div className="App">
+			{progressList}
+			<Button
+				color="primary"
+				variant="contained"
+				onClick={(): void => {
+					setNumProgress(numProgress + 1);
+				}}
+			>
+				+
+			</Button>
+		</div>
+	);
+};
 
 export default App;

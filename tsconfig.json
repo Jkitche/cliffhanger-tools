@@ -1,25 +1,39 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react"
-  },
-  "include": [
-    "src"
-  ]
+	"compilerOptions": {
+		"module": "esnext",
+		"outDir": "lib",
+		"sourceMap": true,
+		"target": "es5",
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "src",
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"jsx": "react",
+		"removeComments": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"moduleResolution": "node",
+		"types": ["node", "jest"],
+		"rootDirs": ["src"],
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"typeRoots": ["node_modules/@types", "@types"],
+		"preserveSymlinks": true,
+		"plugins": [
+			{
+				"name": "typescript-tslint-plugin"
+			}
+		],
+		"downlevelIteration": true,
+		"lib": ["dom", "es5", "scripthost", "es2015.collection"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"isolatedModules": true,
+		"noEmit": true
+	},
+	"exclude": ["node_modules", "dist", "lib", "build", "**/*test.js"],
+	"include": ["src/**/*", "@types/**.d.ts"]
 }
