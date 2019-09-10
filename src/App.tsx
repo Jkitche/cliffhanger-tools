@@ -1,44 +1,24 @@
 import React from "react";
 import "./App.css";
+import Bars from "./Bars.json";
 import Progress from "./Progress/Progress";
 
-const getQueryStringValue = (key: string): string => {
-	return decodeURIComponent(
-		window.location.search.replace(
-			new RegExp(
-				"^(?:.*[&\\?]" +
-					encodeURIComponent(key).replace(/[.+*]/g, "\\$&") +
-					"(?:\\=([^&]*))?)?.*$",
-				"i"
-			),
-			"$1"
-		)
-	);
-};
-
 const App: React.FC = (): React.ReactElement => {
-	const progressList = [];
+	const progressList: React.ReactElement[] = [];
 
-	for (let i = 1; i <= 50; i++) {
-		const queryValue = getQueryStringValue(`prog${i}`);
-		if (queryValue && queryValue.length) {
-			const [color, progress] = queryValue.split(",");
-			progressList.push(
-				<Progress
-					id={`${i}`}
-					key={i}
-					color={`#${color}`}
-					progress={parseInt(progress, 10)}
-				/>
-			);
-		}
-	}
+	Bars.forEach((bar: any, index: number): void => {
+		const { color, progress } = bar;
+		progressList.push(
+			<Progress
+				id={`${index}`}
+				key={index}
+				color={color}
+				progress={progress}
+			/>
+		);
+	});
 
-	return (
-		<div className="App">
-			{progressList}
-		</div>
-	);
+	return <div className="App">{progressList}</div>;
 };
 
 export default App;
