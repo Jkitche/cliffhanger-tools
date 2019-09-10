@@ -1,41 +1,42 @@
-import { Button, Grid } from "@material-ui/core";
 import React from "react";
 import "./App.css";
 import Progress from "./Progress/Progress";
 
+const getQueryStringValue = (key: string): string => {
+	return decodeURIComponent(
+		window.location.search.replace(
+			new RegExp(
+				"^(?:.*[&\\?]" +
+					encodeURIComponent(key).replace(/[.+*]/g, "\\$&") +
+					"(?:\\=([^&]*))?)?.*$",
+				"i"
+			),
+			"$1"
+		)
+	);
+};
+
 const App: React.FC = (): React.ReactElement => {
-	const [numProgress, setNumProgress] = React.useState(3);
 	const progressList = [];
-	for (let i = 0; i < numProgress; i++) {
-		progressList.push(<Progress id={`${i}`} />);
+
+	for (let i = 1; i <= 50; i++) {
+		const queryValue = getQueryStringValue(`prog${i}`);
+		if (queryValue && queryValue.length) {
+			const [color, progress] = queryValue.split(",");
+			progressList.push(
+				<Progress
+					id={`${i}`}
+					key={i}
+					color={`#${color}`}
+					progress={parseInt(progress, 10)}
+				/>
+			);
+		}
 	}
+
 	return (
 		<div className="App">
 			{progressList}
-			<Grid container justify="space-evenly" style={{ width: 558 }}>
-				<Grid item>
-					<Button
-						color="primary"
-						variant="contained"
-						onClick={(): void => {
-							setNumProgress(numProgress - 1);
-						}}
-					>
-						-
-					</Button>
-				</Grid>
-				<Grid item>
-					<Button
-						color="primary"
-						variant="contained"
-						onClick={(): void => {
-							setNumProgress(numProgress + 1);
-						}}
-					>
-						+
-					</Button>
-				</Grid>
-			</Grid>
 		</div>
 	);
 };

@@ -1,9 +1,6 @@
-import { TextField } from "@material-ui/core";
-import Drawer from "@material-ui/core/Drawer";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { lighten, makeStyles, withStyles } from "@material-ui/core/styles";
 import React from "react";
-import { SketchPicker } from "react-color";
 
 const useStyles = makeStyles((theme: any) => ({
 	margin: {
@@ -16,15 +13,15 @@ const useStyles = makeStyles((theme: any) => ({
 
 interface IProgressProps {
 	id: string;
+	color: string;
+	progress: number;
 }
 
 const Progress: React.FC<IProgressProps> = (
 	props: IProgressProps
 ): React.ReactElement => {
 	const classes = useStyles(props);
-	const [color, setColor] = React.useState("#000");
-	const [progress, setProgress] = React.useState(50);
-	const [open, setOpen] = React.useState(false);
+	const { color, progress } = props;
 
 	const BorderLinearProgress = withStyles({
 		bar: {
@@ -38,22 +35,7 @@ const Progress: React.FC<IProgressProps> = (
 		},
 	})(LinearProgress);
 
-	const updateProgress = (
-		event: React.ChangeEvent<
-			HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement
-		>
-	): void => {
-		if (event.target && event.target.value) {
-			setProgress(parseInt(event.target.value, 10));
-		} else {
-			setProgress(0);
-		}
-	};
-
-	const updateColor = (newColor: any): void => {
-		setColor(newColor.hex);
-	};
-	const id = open ? `simple-popover-${props.id}` : undefined;
+	const id = `simple-popover-${props.id}`;
 
 	return (
 		<div
@@ -69,33 +51,7 @@ const Progress: React.FC<IProgressProps> = (
 				color="secondary"
 				value={progress}
 				style={{ width: "500px" }}
-				onClick={(): void => {
-					setOpen(true);
-				}}
 			/>
-			<Drawer
-				anchor="right"
-				open={open}
-				onClose={(): void => {
-					setOpen(false);
-				}}
-			>
-				<TextField
-					onChange={updateProgress}
-					value={progress}
-					variant="outlined"
-					type="number"
-					inputProps={{
-						max: "100",
-						min: "0",
-						step: ".1",
-						style: {
-							padding: 5,
-						},
-					}}
-				/>
-				<SketchPicker onChangeComplete={updateColor} color={color} />
-			</Drawer>
 		</div>
 	);
 };
