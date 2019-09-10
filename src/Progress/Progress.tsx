@@ -1,4 +1,5 @@
-import { Grid, Popover, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+import Drawer from "@material-ui/core/Drawer";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { lighten, makeStyles, withStyles } from "@material-ui/core/styles";
 import React from "react";
@@ -23,17 +24,7 @@ const Progress: React.FC<IProgressProps> = (
 	const classes = useStyles(props);
 	const [color, setColor] = React.useState("#000");
 	const [progress, setProgress] = React.useState(50);
-	const [anchorEl, setAnchorEl] = React.useState(null);
-
-	const handleClick = (event: any): void => {
-		setAnchorEl(event.currentTarget);
-	};
-
-	const handleClose = (): void => {
-		setAnchorEl(null);
-	};
-
-	const open = Boolean(anchorEl);
+	const [open, setOpen] = React.useState(false);
 
 	const BorderLinearProgress = withStyles({
 		bar: {
@@ -78,42 +69,33 @@ const Progress: React.FC<IProgressProps> = (
 				color="secondary"
 				value={progress}
 				style={{ width: "500px" }}
-				onClick={handleClick}
-			/>
-			<Popover
-				id={id}
-				open={open}
-				anchorEl={anchorEl}
-				onClose={handleClose}
-				anchorOrigin={{
-					horizontal: "center",
-					vertical: "bottom",
+				onClick={(): void => {
+					setOpen(true);
 				}}
-				transformOrigin={{
-					horizontal: "center",
-					vertical: "top",
+			/>
+			<Drawer
+				anchor="right"
+				open={open}
+				onClose={(): void => {
+					setOpen(false);
 				}}
 			>
-				<Grid container justify="center">
-					<Grid item>
-						<TextField
-							onChange={updateProgress}
-							value={progress}
-							variant="outlined"
-							type="number"
-							inputProps={{
-								max: "100",
-								min: "0",
-								step: ".1",
-								style: {
-									padding: 5,
-								},
-							}}
-						/>
-					</Grid>
-				</Grid>
+				<TextField
+					onChange={updateProgress}
+					value={progress}
+					variant="outlined"
+					type="number"
+					inputProps={{
+						max: "100",
+						min: "0",
+						step: ".1",
+						style: {
+							padding: 5,
+						},
+					}}
+				/>
 				<SketchPicker onChangeComplete={updateColor} color={color} />
-			</Popover>
+			</Drawer>
 		</div>
 	);
 };
